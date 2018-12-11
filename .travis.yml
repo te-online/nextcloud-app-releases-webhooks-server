@@ -1,0 +1,42 @@
+branches:
+  only:
+  - master
+
+before_install:
+  # Install rsync if not already installed.
+  - 'which rsync || ( sudo apt-get update -y && sudo apt-get install rsync -y )'
+
+  # Install ssh-agent if not already installed, it is required by Docker.
+  # (change apt-get to yum if you use a CentOS-based image)
+  - 'which ssh-agent || ( sudo apt-get update -y && sudo apt-get install openssh-client -y )'
+
+  # Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
+script: echo "No script."
+
+after_success:
+  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - ssh-add <(echo "$PRODUCTION_NODE_SSH_PRIVATE_KEY" | base64 --decode)
+
+  # In order to properly check the server's host key, assuming you created the
+  # SSH_SERVER_HOSTKEYS variable previously, uncomment the following two lines
+  # instead.
+  - mkdir -p ~/.ssh
+  - 'echo "$SSH_SERVER_HOSTKEYS" | base64 --decode > ~/.ssh/known_hosts'
+
+  # DEPLOY app to uberspace
+
+  # Prerequisits on server:
+  # - Add usage of correct node version to ~/.bash_profile
+  # - Install pm2 in home directory
+  # - Create ~/apps directory
+  # - Create appconfig.json
+
+  # Copy code to app directory (PRODUCTION)
+  - echo "Deploying node app to production..."
+  - rsync -vr --exclude="node_modules" --exclude=".git" --delete ./ $PRODUCTION_NODE_SSH_USER@$PRODUCTION_NODE_HOST:~/apps/$PRODUCTION_APP_NAME/run/
+  # Install dependecies
+  - ssh $PRODUCTION_NODE_SSH_USER@$PRODUCTION_NODE_HOST "bash -c 'source ~/.bash_profile && cd ~/apps/$PRODUCTION_APP_NAME/run && npm install'"
+  # Restart app
+  - ssh $PRODUCTION_NODE_SSH_USER@$PRODUCTION_NODE_HOST "bash -c 'cd ~/apps/$PRODUCTION_APP_NAME && source ~/.bash_profile && ~/node_modules/pm2/bin/pm2 startOrReload appconfig.json'"
