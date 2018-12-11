@@ -32,6 +32,7 @@ after_success:
   # - Install pm2 in home directory
   # - Create ~/apps directory
   # - Create appconfig.json
+  # - Create ~/nextcloud/certificates/APP.key for each app
 
   # Copy code to app directory (PRODUCTION)
   - echo "Deploying node app to production..."
