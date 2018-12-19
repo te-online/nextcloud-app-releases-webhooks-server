@@ -39,7 +39,7 @@ server.post("/release", rawBodyRecorder, (req, res) => {
     process.env.GITHUB_WEBHOOKS_SECRET,
     req.rawBody
   );
-  if (verified) {
+  if (!verified) {
     sendError(res, { public: true, msg: "Signature not verified." });
     return;
   }
