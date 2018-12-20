@@ -17,5 +17,5 @@ echo '{"downloadUrl": "'$URL'", "signatureBase64": "'$SIGNATURE'"}' > ./releasec
 cd $DIRNAME
 git add .
 git commit -m "Add release $VERSION of app $APPNAME."
-# git push origin master
+git push origin master
 echo "Pushed."
