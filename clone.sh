@@ -17,7 +17,7 @@ git checkout tags/$VERSION
 # Change to working directory
 cd ../../
 # Git clone the app-releases-repository to different location
-git clone https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/te-online/nextcloud-app-releases.git $RELEASES_DIR
+git clone https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/nextcloud-app-releases.git $RELEASES_DIR
 # Create release folder
 mkdir -p $RELEASES_DIR/$APPNAME/$VERSION/$APPNAME
 # Rsync from temp location to releases repository, while using app_name and release_name

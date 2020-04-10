@@ -67,7 +67,9 @@ server.post("/release", rawBodyRecorder, (req, res) => {
       })
       .then(() => {
         return new Promise((resolve, reject) => {
-          exec(`bash ./make.sh "${app}" "${tag_name}"`, error => {
+          exec(`bash ./make.sh "${app}" "${tag_name}" "${
+            process.env.GITHUB_USERNAME
+          }"`, error => {
             if (error) {
               reject(error);
               return;
