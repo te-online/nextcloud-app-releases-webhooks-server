@@ -4,18 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "author": "",
+  "author": "Thomas Ebert, thomasebert.net",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
-    "dotenv": "^6.2.0",
-    "eslint": "^5.10.0",
-    "express": "^4.16.4",
-    "helmet": "^3.15.0",
-    "superagent": "^4.0.0"
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "superagent": "^5.2.2"
   }
 }
